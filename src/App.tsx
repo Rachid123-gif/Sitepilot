@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { useStore } from './store'
 import { Shell } from './components/layout/Shell'
 import { DashboardPage } from './pages/DashboardPage'
@@ -13,6 +13,16 @@ import { ImportPage } from './pages/ImportPage'
 import { SettingsPage } from './pages/SettingsPage'
 import { NouveauSitePage } from './pages/NouveauSitePage'
 import { FraisTrajetPage } from './pages/FraisTrajetPage'
+import { LoginPage } from './pages/LoginPage'
+
+function ProtectedRoutes({ children }: { children: React.ReactNode }) {
+  const currentUser = useStore((s) => s.currentUser)
+  const location = useLocation()
+  if (!currentUser) {
+    return <Navigate to="/login" state={{ from: location }} replace />
+  }
+  return <>{children}</>
+}
 
 export default function App() {
   const { initSeed, darkMode } = useStore()
@@ -29,7 +39,14 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<Shell />}>
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          element={
+            <ProtectedRoutes>
+              <Shell />
+            </ProtectedRoutes>
+          }
+        >
           <Route path="/" element={<DashboardPage />} />
           <Route path="/sites" element={<SitesPage />} />
           <Route path="/sites/nouveau" element={<NouveauSitePage />} />

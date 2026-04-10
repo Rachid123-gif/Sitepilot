@@ -3,6 +3,11 @@ import { persist } from 'zustand/middleware'
 import type { Site, Avance, Photo, RapportHebdo, TrajetSite } from '../types'
 import { SEED_SITES, SEED_AVANCES, SEED_TRAJETS } from '../lib/seed-data'
 
+export interface AuthUser {
+  email: string
+  name: string
+}
+
 interface AppState {
   // Data
   sites: Site[]
@@ -14,6 +19,11 @@ interface AppState {
   // Settings
   darkMode: boolean
   initialized: boolean
+
+  // Auth
+  currentUser: AuthUser | null
+  login: (email: string, password: string) => { ok: boolean; error?: string }
+  logout: () => void
 
   // Actions — sites
   setSites: (sites: Site[]) => void
@@ -57,6 +67,28 @@ export const useStore = create<AppState>()(
       trajets: [],
       darkMode: true,
       initialized: false,
+      currentUser: null,
+
+      login: (email, password) => {
+        // Credentials autorisees (demo)
+        const ACCOUNTS: Record<string, { password: string; name: string }> = {
+          'admin@sitepilot.ma': { password: 'sitepilot2026', name: 'Administrateur' },
+          'rachid@sitepilot.ma': { password: 'rachid2026', name: 'Rachid Idrissi' },
+          'mekki@sitepilot.ma': { password: 'mekki2026', name: 'Mekki' },
+        }
+        const key = email.trim().toLowerCase()
+        const account = ACCOUNTS[key]
+        if (!account) {
+          return { ok: false, error: 'Email introuvable' }
+        }
+        if (account.password !== password) {
+          return { ok: false, error: 'Mot de passe incorrect' }
+        }
+        set({ currentUser: { email: key, name: account.name } })
+        return { ok: true }
+      },
+
+      logout: () => set({ currentUser: null }),
 
       setSites: (sites) => set({ sites }),
 
