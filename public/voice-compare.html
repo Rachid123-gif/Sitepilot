@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Voice Comparison</title>
+<style>
+body{font-family:system-ui;background:#0f172a;color:#e2e8f0;padding:40px;max-width:600px;margin:auto}
+h1{color:#60a5fa;font-size:24px}
+.card{background:#1e293b;border-radius:12px;padding:20px;margin:20px 0;border:1px solid #334155}
+.card h2{margin:0 0 10px;font-size:18px;color:#f1f5f9}
+.card p{color:#94a3b8;font-size:14px;margin:5px 0}
+audio{width:100%;margin-top:10px}
+.badge{display:inline-block;padding:3px 10px;border-radius:8px;font-size:12px;font-weight:bold}
+.b1{background:#1e40af;color:#93c5fd}
+.b2{background:#5b21b6;color:#c4b5fd}
+.b3{background:#065f46;color:#6ee7b7}
+</style></head>
+<body>
+<h1>Comparaison des voix</h1>
+<p style="color:#94a3b8">Ecoutez les 3 options et choisissez la meilleure pour la video SitePilot</p>
+
+<div class="card">
+<h2>1. Dia TTS <span class="badge b1">fal.ai</span></h2>
+<p>Modele dialogue Nari Labs - voix generee directement en francais</p>
+<audio controls src="/test_dia.mp3"></audio>
+</div>
+
+<div class="card">
+<h2>2. F5-TTS <span class="badge b2">fal.ai</span></h2>
+<p>Voice cloning avec reference anglaise (bria) - texte francais</p>
+<audio controls src="/test_f5.mp3"></audio>
+</div>
+
+<div class="card">
+<h2>3. Kokoro French <span class="badge b3">fal.ai</span></h2>
+<p>Voix ff_siwis (feminine) - TTS francaise native</p>
+<audio controls src="/test_kokoro.mp3"></audio>
+</div>
+</body></html>
