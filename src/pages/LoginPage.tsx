@@ -92,7 +92,7 @@ export function LoginPage() {
         </div>
 
         <div className="text-xs text-gray-500">
-          © 2026 SitePilot — Tous droits reserves
+          © 2026 SitePilot — Tous droits reserves · <span className="text-gray-400">Rachid Idrissi</span>
         </div>
       </div>
 
@@ -232,6 +232,11 @@ export function LoginPage() {
 
           <p className="text-center text-xs text-gray-600 mt-6">
             Probleme de connexion ? Contactez votre administrateur
+          </p>
+
+          {/* Mobile footer signature */}
+          <p className="lg:hidden text-center text-[11px] text-gray-600 mt-4">
+            © 2026 SitePilot — Tous droits reserves · Rachid Idrissi
           </p>
         </div>
       </div>

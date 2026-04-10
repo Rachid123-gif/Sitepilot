@@ -129,8 +129,9 @@ export function Sidebar({ open, onClose }: SidebarProps) {
             </div>
           )}
           <div className="px-4 py-2 rounded-lg bg-gray-50 border border-gray-200 dark:bg-white/5 dark:border-white/10">
-            <p className="text-xs text-gray-500">SitePilot v1.1</p>
-            <p className="text-xs text-gray-400">14 sites · R15 & R16</p>
+            <p className="text-xs font-semibold text-gray-600 dark:text-gray-300">SitePilot v1.1</p>
+            <p className="text-[10px] text-gray-500 dark:text-gray-400">© 2026 · Rachid Idrissi</p>
+            <p className="text-[10px] text-gray-400 dark:text-gray-500">Tous droits reserves</p>
           </div>
         </div>
       </aside>
