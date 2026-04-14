@@ -19,6 +19,8 @@ export function SitesPage() {
   const [editData, setEditData] = useState<Partial<Site>>({})
   const [editBudget, setEditBudget] = useState<BudgetDetail | null>(null)
   const [editPaiements, setEditPaiements] = useState<PaiementDetail | null>(null)
+  const [budgetText, setBudgetText] = useState('')
+  const [payeText, setPayeText] = useState('')
 
   const sousTraitants = [...new Set(sites.map((s) => s.sousTraitant))]
   const codes = [...new Set(sites.map((s) => s.code))].sort()
@@ -33,6 +35,9 @@ export function SitesPage() {
   })
 
   function startEdit(site: Site) {
+    const bTotal = (site.budget.pylone ?? 0) + (site.budget.local ?? 0) + (site.budget.localGE ?? 0) +
+      (site.budget.murCloture ?? 0) + (site.budget.electricite ?? 0) + (site.budget.fraisExtra ?? 0)
+    const pTotal = Math.abs(site.paiements.pylone ?? 0) + Math.abs(site.paiements.local ?? 0) + Math.abs(site.paiements.localGE ?? 0)
     setEditingId(site.id)
     setEditData({
       nom: site.nom,
@@ -44,6 +49,8 @@ export function SitesPage() {
     })
     setEditBudget({ ...site.budget })
     setEditPaiements({ ...site.paiements })
+    setBudgetText(String(bTotal))
+    setPayeText(String(pTotal))
   }
 
   function cancelEdit() {
@@ -51,6 +58,8 @@ export function SitesPage() {
     setEditData({})
     setEditBudget(null)
     setEditPaiements(null)
+    setBudgetText('')
+    setPayeText('')
   }
 
   function saveEdit() {
@@ -232,11 +241,15 @@ export function SitesPage() {
                   <td className="px-4 py-3 text-right">
                     {isEditing ? (
                       <input
-                        type="number"
-                        value={editBudgetTotal()}
+                        type="text"
+                        inputMode="numeric"
+                        value={budgetText}
                         onChange={(e) => {
-                          // Distribute proportionally across budget postes
-                          const newTotal = parseFloat(e.target.value) || 0
+                          const v = e.target.value.replace(/[^0-9]/g, '')
+                          setBudgetText(v)
+                        }}
+                        onBlur={() => {
+                          const newTotal = parseInt(budgetText) || 0
                           const oldTotal = editBudgetTotal() || 1
                           if (editBudget) {
                             const ratio = newTotal / oldTotal
@@ -250,7 +263,7 @@ export function SitesPage() {
                             })
                           }
                         }}
-                        className={cn(editInputCls, 'w-24 text-right')}
+                        className={cn(editInputCls, 'w-28 text-right')}
                       />
                     ) : (
                       <span className="tabular-nums text-gray-700 dark:text-gray-300">{formatMontant(kpi.budgetTotal)}</span>
@@ -261,10 +274,15 @@ export function SitesPage() {
                   <td className="px-4 py-3 text-right">
                     {isEditing ? (
                       <input
-                        type="number"
-                        value={editPayeTotal()}
+                        type="text"
+                        inputMode="numeric"
+                        value={payeText}
                         onChange={(e) => {
-                          const newTotal = parseFloat(e.target.value) || 0
+                          const v = e.target.value.replace(/[^0-9]/g, '')
+                          setPayeText(v)
+                        }}
+                        onBlur={() => {
+                          const newTotal = parseInt(payeText) || 0
                           const oldTotal = editPayeTotal() || 1
                           if (editPaiements) {
                             const ratio = newTotal / oldTotal
@@ -275,7 +293,7 @@ export function SitesPage() {
                             })
                           }
                         }}
-                        className={cn(editInputCls, 'w-24 text-right')}
+                        className={cn(editInputCls, 'w-28 text-right')}
                       />
                     ) : (
                       <span className="tabular-nums text-gray-700 dark:text-gray-300">{formatMontant(kpi.totalPaye)}</span>

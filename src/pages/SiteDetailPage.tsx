@@ -277,9 +277,10 @@ export function SiteDetailPage() {
                     <div>
                       <label className="text-xs text-gray-400">Budget (DH)</label>
                       <input
-                        type="number"
-                        value={editBudget[key as keyof BudgetDetail]}
-                        onChange={(e) => setEditBudget({ ...editBudget, [key]: parseFloat(e.target.value) || 0 })}
+                        type="text"
+                        inputMode="numeric"
+                        defaultValue={editBudget[key as keyof BudgetDetail]}
+                        onBlur={(e) => setEditBudget({ ...editBudget, [key]: parseInt(e.target.value.replace(/[^0-9]/g, '')) || 0 })}
                         className={cn(inputCls, 'w-full')}
                       />
                     </div>
@@ -287,9 +288,10 @@ export function SiteDetailPage() {
                       <div>
                         <label className="text-xs text-gray-400">Paye (DH)</label>
                         <input
-                          type="number"
-                          value={editPaiements[paidKey]}
-                          onChange={(e) => setEditPaiements({ ...editPaiements, [paidKey]: parseFloat(e.target.value) || 0 })}
+                          type="text"
+                          inputMode="numeric"
+                          defaultValue={editPaiements[paidKey]}
+                          onBlur={(e) => setEditPaiements({ ...editPaiements, [paidKey]: parseInt(e.target.value.replace(/[^0-9]/g, '')) || 0 })}
                           className={cn(inputCls, 'w-full')}
                         />
                       </div>
